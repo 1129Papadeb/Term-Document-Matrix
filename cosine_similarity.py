@@ -1,6 +1,14 @@
+import wikipediaapi
 from collections import Counter
 import pandas as pd
 from math import log, sqrt
+
+# Function to fetch content from Wikipedia using wikipedia-api
+def fetch_wikipedia_article(title):
+    # Correctly initialize the Wikipedia API with language and user_agent
+    wiki = wikipediaapi.Wikipedia(language='en', user_agent="MyApp/1.0 (https://example.com)") 
+    page = wiki.page(title)
+    return page.text
 
 # Function to compute raw frequency (without normalization)
 def compute_raw_frequency(tokens, vocab):
@@ -27,14 +35,9 @@ def cosine_similarity(vec1, vec2):
     mag2 = sqrt(sum(vec2[t]**2 for t in vec2))
     return dot / (mag1 * mag2) if mag1 != 0 and mag2 != 0 else 0
 
-# Sample documents
-documents = [
-    "Artificial intelligence (AI) is the simulation of human intelligence in machines programmed to think like humans and mimic their actions. The term may also be applied to any machine that exhibits traits associated with a human mind such as learning and problem-solving. AI has become an essential part of the technology industry.",
-    "Climate change refers to long-term shifts and alterations in temperature and weather patterns. It can be natural, but recent trends are largely driven by human activities, especially fossil fuel burning. These emissions trap heat, leading to global warming and various ecological impacts.",
-    "Quantum computing uses the principles of quantum mechanics to perform calculations at unprecedented speeds. It relies on quantum bits or qubits, which can exist in multiple states simultaneously. This technology has the potential to solve complex problems much faster than classical computers.",
-    "Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize foods from carbon dioxide and water. It generally involves the green pigment chlorophyll and generates oxygen as a byproduct. This process is fundamental to life on Earth.",
-    "Blockchain is a distributed ledger technology that allows data to be stored across a network of computers in a secure, transparent way. It underpins cryptocurrencies like Bitcoin and Ethereum. Each block in the chain contains a list of transactions that are cryptographically secured."
-]
+# Fetch Wikipedia articles
+titles = ["Artificial_intelligence", "Climate_change", "Quantum_computing", "Photosynthesis", "Blockchain"]
+documents = [fetch_wikipedia_article(title) for title in titles]
 
 # Tokenize documents
 tokenized_docs = [doc.lower().split() for doc in documents]

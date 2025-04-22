@@ -1,6 +1,14 @@
+import wikipediaapi
 from collections import Counter
 import pandas as pd
 from math import log
+
+# Function to fetch content from Wikipedia using wikipedia-api
+def fetch_wikipedia_article(title):
+    # Initialize the Wikipedia API with language and user agent
+    wiki = wikipediaapi.Wikipedia(language='en', user_agent="MyApp/1.0 (https://example.com)") 
+    page = wiki.page(title)
+    return page.text  # Return the text content of the page
 
 # Function to compute raw frequency (without normalization)
 def compute_raw_frequency(tokens, vocab):
@@ -12,26 +20,21 @@ def compute_idf(tokenized_docs, vocab):
     N = len(tokenized_docs)
     idf_dict = {}
     for term in vocab:
-        # Count the number of documents containing the term
         df = sum(term in doc for doc in tokenized_docs)
-        # Compute IDF using the formula: idf(t) = log(N / df(t))
-        idf_dict[term] = log(N / (df or 1))
+        idf_dict[term] = log(N / (df or 1))  # Prevent division by zero
     return idf_dict
 
 # Function to compute TF-IDF
 def compute_tfidf(tf_vector, idf, vocab):
     return {term: tf_vector[term] * idf[term] for term in vocab}
 
-# Sample corpus (5 documents with different topics)
-documents = [
-    "Artificial intelligence (AI) is the simulation of human intelligence in machines programmed to think like humans and mimic their actions. The term may also be applied to any machine that exhibits traits associated with a human mind such as learning and problem-solving. AI has become an essential part of the technology industry.",
-    "Climate change refers to long-term shifts and alterations in temperature and weather patterns. It can be natural, but recent trends are largely driven by human activities, especially fossil fuel burning. These emissions trap heat, leading to global warming and various ecological impacts.",
-    "Quantum computing uses the principles of quantum mechanics to perform calculations at unprecedented speeds. It relies on quantum bits or qubits, which can exist in multiple states simultaneously. This technology has the potential to solve complex problems much faster than classical computers.",
-    "Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize foods from carbon dioxide and water. It generally involves the green pigment chlorophyll and generates oxygen as a byproduct. This process is fundamental to life on Earth.",
-    "Blockchain is a distributed ledger technology that allows data to be stored across a network of computers in a secure, transparent way. It underpins cryptocurrencies like Bitcoin and Ethereum. Each block in the chain contains a list of transactions that are cryptographically secured."
-]
+# List of Wikipedia article titles
+titles = ["Artificial_intelligence", "Climate_change", "Quantum_computing", "Photosynthesis", "Blockchain"]
 
-# Tokenize and apply lowercase the documents into words
+# Fetch Wikipedia articles
+documents = [fetch_wikipedia_article(title) for title in titles]
+
+# Tokenize the documents and apply lowercase
 tokenized_docs = [doc.lower().split() for doc in documents]
 
 # Create a set of unique words (vocabulary)
