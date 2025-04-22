@@ -29,11 +29,11 @@ def cosine_similarity(vec1, vec2):
 
 # Sample documents
 documents = [
-    "World War II was a global war that lasted from 1939 to 1945.",
-    "Basketball is a sport played by teams of players who try to shoot the ball into a hoop.",
-    "Computer science is the study of computational systems and computers.",
-    "Photosynthesis is the process by which plants convert sunlight into energy.",
-    "Climate change refers to long-term changes in temperature and weather patterns."
+    "Artificial intelligence (AI) is the simulation of human intelligence in machines programmed to think like humans and mimic their actions. The term may also be applied to any machine that exhibits traits associated with a human mind such as learning and problem-solving. AI has become an essential part of the technology industry.",
+    "Climate change refers to long-term shifts and alterations in temperature and weather patterns. It can be natural, but recent trends are largely driven by human activities, especially fossil fuel burning. These emissions trap heat, leading to global warming and various ecological impacts.",
+    "Quantum computing uses the principles of quantum mechanics to perform calculations at unprecedented speeds. It relies on quantum bits or qubits, which can exist in multiple states simultaneously. This technology has the potential to solve complex problems much faster than classical computers.",
+    "Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize foods from carbon dioxide and water. It generally involves the green pigment chlorophyll and generates oxygen as a byproduct. This process is fundamental to life on Earth.",
+    "Blockchain is a distributed ledger technology that allows data to be stored across a network of computers in a secure, transparent way. It underpins cryptocurrencies like Bitcoin and Ethereum. Each block in the chain contains a list of transactions that are cryptographically secured."
 ]
 
 # Tokenize documents
